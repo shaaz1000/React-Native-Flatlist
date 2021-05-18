@@ -1,112 +1,169 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React,{useState} from 'react';
+import { Text,FlatList,View,SafeAreaView,StatusBar,StyleSheet,TouchableOpacity,Dimensions} from 'react-native';
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const {width, height} = Dimensions.get("window")
+const App = () => {
+  
+  const [cardId,setCardId] = useState(0)
+  const data = [
+    {
+    id:1,
+    Name : "Shaaz Khan",
+    Age : "22",
+    Sex : "M",
+    Address : [
+      {
+      id : 1,
+      bldngName : "Sunrise",
+      location : "Thane",
+      Pincode : 400017
+      },
+      {
+      id : 2,
+      bldngName : "Sunrise",
+      location : "Thane",
+      Pincode : 400018
+      },
+    ]
+  },
+    {
+    id:2,
+    Name : "Radha",
+    Age : "22",
+    Sex : "F",
+    Address : [
+      {
+      id : 1,
+      bldngName : "Sunrise",
+      location : "Thane",
+      Pincode : 400019
+      },
+      {
+      id : 2,
+      bldngName : "Sunrise",
+      location : "Thane",
+      Pincode : 400020
+      },
+    ]
+  },
+    {
+    id:3,
+    Name : "Angad",
+    Age : "22",
+    Sex : "M",
+    Address : [
+      {
+      id : 1,
+      bldngName : "Sunrise",
+      location : "Thane",
+      Pincode : 400021
+      },
+      {
+      id : 2,
+      bldngName : "Sunrise",
+      location : "Thane",
+      Pincode : 400022
+      },
+    ]
+  },
+    {
+    id:4,
+    Name : "Negi",
+    Age : "22",
+    Sex : "M",
+    Address : [
+      {
+      id : 1,
+      bldngName : "Sunrise",
+      location : "Thane",
+      Pincode : 400023
+      }
+    ]
+  },
+    {
+    id:5,
+    Name : "Shaaz Khan",
+    Age : "22",
+    Sex : "M",
+    Address : [
+      {
+      id : 1,
+      bldngName : "Sunrise",
+      location : "Thane",
+      Pincode : 400024
+      }
+    ]
+  },
+  ]
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+  const renderItem = (item) => {
+   
+    
+    return(
+      <>
+      <TouchableOpacity
+        onPress={()=>{
+          setCardId(item.id)
+        }}
+      >  
+      <View style={[styles.firstContainer,{
+        backgroundColor:item.id === cardId ? "#e4efe7" : "#faf1e6"
+      }]}>
+        <Text style={[styles.textStyle,{color:item.id === cardId ? "#ff7b54" : "black"}]}>Customer Id {item.id}</Text>
+        <Text style={[styles.textStyle,{color:item.id === cardId ? "#ff7b54" : "black"}]}>Name {item.Name}</Text>
+        <Text style={[styles.textStyle,{color:item.id === cardId ? "#ff7b54" : "black"}]}>Age {item.Age}</Text>
+        <Text style={[styles.textStyle,{color:item.id === cardId ? "#ff7b54" : "black"}]}>Sex {item.Sex}</Text>
+      </View>
+      </TouchableOpacity>
+      {
+        item.id === cardId ?
+        item.Address.map(i=>{
+          return (
+            <View style={{backgroundColor:"#ffd56b",margin:10,borderRadius:5,elevation:5}}>
+              <Text style={{color:"black",padding:10,fontWeight:"bold"}}>BuildingName {i.bldngName}</Text>
+              <Text style={{color:"black",paddingLeft:10,paddingLeft:10,fontWeight:"bold"}}>Location {i.location}</Text>
+              <Text style={{color:"black",paddingLeft:10,fontWeight:"bold"}}>Pincode{i.Pincode}</Text>
+            </View>
+          )
+        })
+        :
+        null
+      }
+      </>
+    )
+  }
+  return(
+    <>
+    <StatusBar backgroundColor="purple" barStyle="light-content"/>
+    <SafeAreaView style={{backgroundColor:"white",flex:1}}>
+      <FlatList
+        data={data}
+       
+        showsVerticalScrollIndicator={false}
+        keyExtractor={({id})=>id}
+        renderItem={({item})=>{
+          return renderItem(item)
+        }}
+      />
     </SafeAreaView>
-  );
-};
+    </>
+  )
+}
+
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  firstContainer:{
+    margin:10,
+    borderRadius:10,
+    elevation:5,
+    padding:10,
+    
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
+  textStyle:{
+    color:"orange",
+    padding:10,
+    fontSize:15,
+    fontWeight:"bold"
+  }
+})
 export default App;
